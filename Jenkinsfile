@@ -1,11 +1,11 @@
 #!/usr/bin/env groovy
 
 pipeline {
-    environment{
+  agent none
+  environment{
     DOCKER_USER = credentials('docker_hub_user')
-    DOCKER_PASS = credentials('docker_hub_pass')
-    }
- agent none
+    DOCKER_PASS = credentials('docker_hub_pass') 
+  }
 
  stages {
    stage('Unit test frontend') {
@@ -14,7 +14,7 @@ pipeline {
          sh "docker build -t frontend-tests -f Frontend/Dockerfile.unit-test ./Frontend"
          sh "docker run frontend-tests"
      }
-
+   }
    stage('Build frontend') {
      agent any
      when {
@@ -60,5 +60,4 @@ pipeline {
        sh "docker rmi -f vermunoz/todo-backend:${GIT_COMMIT}"
      }
    }
- }
 }
