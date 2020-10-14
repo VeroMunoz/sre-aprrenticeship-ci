@@ -1,6 +1,10 @@
 #!/usr/bin/env groovy
 
 pipeline {
+  environment {
+  registry = "vermunoz/todo-frontend"
+  registryCredential = ‘dockerhub’
+}
  agent none
 
  stages {
