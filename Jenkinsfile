@@ -24,7 +24,7 @@ pipeline {
          sh "docker pull vermunoz/ecsfs-frontend:latest"
          sh "docker build -t vermunoz/todo-frontend:${GIT_COMMIT} -f Frontend/Dockerfile ./Frontend"
          script {
-          docker.withRegistry( '', registryCredential ) {
+          docker.withRegistry( registry, registryCredential ) {
             dockerImage.push()
           }
         }
