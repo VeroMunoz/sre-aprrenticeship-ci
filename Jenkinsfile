@@ -18,8 +18,9 @@ pipeline {
        branch 'main'
      }
      steps {
+         sh "docker pull vermunoz/ecsfs-frontend:latest"
          sh "docker build -t vermunoz/todo-frontend:${GIT_COMMIT} -f Frontend/Dockerfile ./Frontend"
-         sh "sudo docker push vermunoz/todo-frontend:${GIT_COMMIT}"
+         sh "docker push vermunoz/todo-frontend:${GIT_COMMIT}"
      }
    }
    stage('Unit test backend') {
