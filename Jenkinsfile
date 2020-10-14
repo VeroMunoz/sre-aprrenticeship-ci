@@ -3,8 +3,8 @@
 pipeline {
   environment {
   registry = "vermunoz/todo-frontend"
-  registryCredential = ‘dockerhub’
-}
+  registryCredential = "dockerhub"
+  }
  agent none
 
  stages {
