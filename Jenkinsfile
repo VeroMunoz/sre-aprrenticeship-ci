@@ -60,4 +60,4 @@ pipeline {
        sh "docker rmi -f vermunoz/todo-backend:${GIT_COMMIT}"
      }
    }
-}
+ }
