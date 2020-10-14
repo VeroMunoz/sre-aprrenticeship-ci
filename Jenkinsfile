@@ -10,12 +10,11 @@ pipeline {
  stages {
    stage('Unit test frontend') {
      agent any
-
      steps {
          sh "docker build -t frontend-tests -f Frontend/Dockerfile.unit-test ./Frontend"
          sh "docker run frontend-tests"
      }
-   }
+
    stage('Build frontend') {
      agent any
      when {
@@ -24,7 +23,11 @@ pipeline {
      steps {
          sh "docker pull vermunoz/ecsfs-frontend:latest"
          sh "docker build -t vermunoz/todo-frontend:${GIT_COMMIT} -f Frontend/Dockerfile ./Frontend"
-         sh "docker push vermunoz/todo-frontend:${GIT_COMMIT}"
+         script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
      }
    }
    stage('Unit test backend') {
