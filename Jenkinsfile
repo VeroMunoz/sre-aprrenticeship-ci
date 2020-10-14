@@ -19,7 +19,7 @@ pipeline {
      }
      steps {
          sh "docker build -t vermunoz/todo-frontend:${GIT_COMMIT} -f Frontend/Dockerfile ./Frontend"
-         sh "docker push vermunoz/todo-frontend:${GIT_COMMIT}"
+         sh "sudo docker push vermunoz/todo-frontend:${GIT_COMMIT}"
      }
    }
    stage('Unit test backend') {
