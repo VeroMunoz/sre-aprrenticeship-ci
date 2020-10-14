@@ -1,10 +1,10 @@
 #!/usr/bin/env groovy
 
 pipeline {
-  environment {
-  registry = "vermunoz/todo-frontend"
-  registryCredential = "dockerhub"
-  }
+    environment{
+    DOCKER_USER = credentials('docker_hub_user')
+    DOCKER_PASS = credentials('docker_hub_pass')
+    }
  agent none
 
  stages {
@@ -21,13 +21,9 @@ pipeline {
        branch 'main'
      }
      steps {
+         sh "docker login -u $DOCKER_USER -p $DOCKER_PASS"
          sh "docker pull vermunoz/ecsfs-frontend:latest"
          sh "docker build -t vermunoz/todo-frontend:${GIT_COMMIT} -f Frontend/Dockerfile ./Frontend"
-         script {
-             docker.withRegistry( registry, registryCredential ) {
-             dockerImage.push()
-          }
-        }
      }
    }
    stage('Unit test backend') {
