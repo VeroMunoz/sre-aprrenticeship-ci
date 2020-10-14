@@ -1,15 +1,16 @@
 #!/usr/bin/env groovy
 
 pipeline {
-  agent none
-  environment{
-    DOCKER_USER = credentials('docker_hub_user')
-    DOCKER_PASS = credentials('docker_hub_pass') 
+ agent none
+ environment{
+   DOCKER_USER = credentials('docker_hub_user')
+   DOCKER_PASS = credentials('docker_hub_pass') 
   }
 
  stages {
    stage('Unit test frontend') {
      agent any
+
      steps {
          sh "docker build -t frontend-tests -f Frontend/Dockerfile.unit-test ./Frontend"
          sh "docker run frontend-tests"
@@ -21,9 +22,8 @@ pipeline {
        branch 'main'
      }
      steps {
-         sh "docker login -u $DOCKER_USER -p $DOCKER_PASS"
-         sh "docker pull vermunoz/ecsfs-frontend:latest"
          sh "docker build -t vermunoz/todo-frontend:${GIT_COMMIT} -f Frontend/Dockerfile ./Frontend"
+         sh "docker push vermunoz/todo-frontend:${GIT_COMMIT}"
      }
    }
    stage('Unit test backend') {
@@ -61,3 +61,4 @@ pipeline {
      }
    }
  }
+}
