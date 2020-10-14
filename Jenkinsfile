@@ -22,6 +22,7 @@ pipeline {
        branch 'main'
      }
      steps {
+         sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
          sh "docker build -t vermunoz/todo-frontend:${GIT_COMMIT} -f Frontend/Dockerfile ./Frontend"
          sh "docker push vermunoz/todo-frontend:${GIT_COMMIT}"
      }
